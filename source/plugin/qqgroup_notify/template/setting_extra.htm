@@ -1,0 +1,84 @@
+<!--{eval $qqnotify_settings = qqgroup_notify_admin_get_settings();}-->
+<!--{eval $qqnotify_forums = qqgroup_notify_admin_get_forums();}-->
+<!--{eval $qqnotify_logs = qqgroup_notify_admin_get_logs();}-->
+
+<div class="bm">
+    <div class="bm_h cl">
+        <h2>QQ群通知 - 高级设置</h2>
+    </div>
+    <div class="bm_c">
+        <h3>板块选择（可视化）</h3>
+        <p>除了在上方用板块FID指定外，您也可以在此勾选需要通知的板块：</p>
+        <table class="tb tb2 tdl">
+            <tr><th>板块</th><th>FID</th><th>选择</th></tr>
+            <!--{loop $qqnotify_forums $forum}-->
+            <tr>
+                <td>$forum[name]</td>
+                <td>$forum[fid]</td>
+                <td><input type="checkbox" class="qqnotify_forum_cb" value="$forum[fid]" /></td>
+            </tr>
+            <!--{/loop}-->
+        </table>
+        <p><button type="button" onclick="qqnotify_applyForums()">应用勾选的板块到上方设置</button></p>
+
+        <h3 style="margin-top:15px;">发送测试</h3>
+        <p>
+            <button type="button" onclick="qqnotify_test()">发送测试消息到QQ群</button>
+            <span id="qqnotify_test_result"></span>
+        </p>
+
+        <h3 style="margin-top:15px;">最近通知记录</h3>
+        <!--{if empty($qqnotify_logs)}-->
+        <p>暂无通知记录</p>
+        <!--{else}-->
+        <table class="tb tb2 tdl">
+            <tr><th>时间</th><th>类型</th><th>标题</th><th>作者</th><th>群号</th><th>状态</th></tr>
+            <!--{loop $qqnotify_logs $log}-->
+            <tr>
+                <td><!--{eval echo date('Y-m-d H:i:s', $log['dateline']);}--></td>
+                <td>$log[type]</td>
+                <td>$log[subject]</td>
+                <td>$log[author]</td>
+                <td>$log[group_id]</td>
+                <td><!--{if $log['status']}--><span style="color:green">成功</span><!--{else}--><span style="color:red">失败</span><!--{/if}--></td>
+            </tr>
+            <!--{/loop}-->
+        </table>
+        <!--{/if}-->
+    </div>
+</div>
+
+<script>
+function qqnotify_applyForums() {
+    var cbs = document.querySelectorAll('.qqnotify_forum_cb:checked');
+    var fids = [];
+    for (var i = 0; i < cbs.length; i++) {
+        fids.push(cbs[i].value);
+    }
+    var input = document.querySelector('input[name="settingnew[qqgroup_notify][notify_forums]"]') ||
+                document.querySelector('input[name="settingnew[notify_forums]"]');
+    if (input) {
+        input.value = fids.length > 0 ? fids.join(',') : 'all';
+        alert('已应用 ' + fids.length + ' 个板块，请保存设置。');
+    } else {
+        alert('未找到板块设置输入框，请手动填写板块FID。');
+    }
+}
+
+function qqnotify_test() {
+    var resultEl = document.getElementById('qqnotify_test_result');
+    resultEl.innerHTML = '发送中...';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'admin.php?action=plugins&operation=config&do=qqgroup_notify&identifier=qqgroup_notify&pmod=qqnotify_test&formhash=' + FORMHASH, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                resultEl.innerHTML = '<span style="color:green">请求已发送，请检查QQ群是否收到消息。</span>';
+            } else {
+                resultEl.innerHTML = '<span style="color:red">请求失败: ' + xhr.status + '</span>';
+            }
+        }
+    };
+    xhr.send();
+}
+</script>

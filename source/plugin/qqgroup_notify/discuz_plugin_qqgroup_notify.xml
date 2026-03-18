@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<item id="title"><![CDATA[QQ群发帖通知]]></item>
+	<item id="description"><![CDATA[论坛发帖自动通知到QQ群，支持选择指定板块或全部板块。兼容 go-cqhttp / NapCat / LLOneBot / Lagrange 等主流OneBot协议QQ机器人框架。]]></item>
+	<item id="version"><![CDATA[1.2.0]]></item>
+	<item id="identifier"><![CDATA[qqgroup_notify]]></item>
+	<item id="author"><![CDATA[Cursor AI]]></item>
+	<item id="copyright"><![CDATA[MIT License]]></item>
+	<item id="datatables"></item>
+	<item id="directories">
+		<directory>template</directory>
+		<directory>language</directory>
+		<directory>language/sc</directory>
+	</item>
+	<item id="settings">
+		<setting id="enabled">
+			<item id="title"><![CDATA[启用插件]]></item>
+			<item id="description"><![CDATA[是否启用QQ群通知功能]]></item>
+			<item id="type"><![CDATA[radio]]></item>
+			<item id="value"><![CDATA[1]]></item>
+			<item id="extra"><![CDATA[1=是
+0=否]]></item>
+		</setting>
+		<setting id="bot_api_url">
+			<item id="title"><![CDATA[机器人API地址]]></item>
+			<item id="description"><![CDATA[OneBot HTTP API 地址，例如：http://127.0.0.1:5700 （不要以/结尾）]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[http://127.0.0.1:5700]]></item>
+		</setting>
+		<setting id="bot_access_token">
+			<item id="title"><![CDATA[Access Token]]></item>
+			<item id="description"><![CDATA[OneBot API 的 access_token，留空表示无需鉴权]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[]]></item>
+		</setting>
+		<setting id="qq_group_ids">
+			<item id="title"><![CDATA[QQ群号]]></item>
+			<item id="description"><![CDATA[接收通知的QQ群号，多个群用英文逗号分隔，例如：123456,789012]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[]]></item>
+		</setting>
+		<setting id="notify_forums">
+			<item id="title"><![CDATA[通知板块]]></item>
+			<item id="description"><![CDATA[需要通知的板块FID，多个板块用英文逗号分隔。留空或填 all 表示全部板块]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[all]]></item>
+		</setting>
+		<setting id="notify_template">
+			<item id="title"><![CDATA[通知消息模板]]></item>
+			<item id="description"><![CDATA[通知消息模板，可用变量：{subject} 标题, {author} 作者, {forum} 板块名, {url} 帖子链接, {summary} 内容摘要]]></item>
+			<item id="type"><![CDATA[textarea]]></item>
+			<item id="value"><![CDATA[📢 论坛新帖通知
+━━━━━━━━━━
+📌 标题：{subject}
+👤 作者：{author}
+📂 板块：{forum}
+🔗 链接：{url}
+📝 摘要：{summary}]]></item>
+		</setting>
+		<setting id="notify_reply">
+			<item id="title"><![CDATA[回帖也通知]]></item>
+			<item id="description"><![CDATA[新回帖是否也发送通知]]></item>
+			<item id="type"><![CDATA[radio]]></item>
+			<item id="value"><![CDATA[0]]></item>
+			<item id="extra"><![CDATA[1=是
+0=否]]></item>
+		</setting>
+		<setting id="reply_template">
+			<item id="title"><![CDATA[回帖通知模板]]></item>
+			<item id="description"><![CDATA[回帖通知消息模板，可用变量：{subject} 主题标题, {author} 回帖者, {forum} 板块名, {url} 帖子链接, {summary} 回帖摘要]]></item>
+			<item id="type"><![CDATA[textarea]]></item>
+			<item id="value"><![CDATA[💬 论坛新回帖通知
+━━━━━━━━━━
+📌 主题：{subject}
+👤 回帖：{author}
+📂 板块：{forum}
+🔗 链接：{url}
+📝 摘要：{summary}]]></item>
+		</setting>
+		<setting id="summary_length">
+			<item id="title"><![CDATA[摘要长度]]></item>
+			<item id="description"><![CDATA[通知消息中内容摘要的最大字符数]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[100]]></item>
+		</setting>
+		<setting id="site_url">
+			<item id="title"><![CDATA[论坛网址]]></item>
+			<item id="description"><![CDATA[论坛完整网址，用于生成帖子链接。例如：https://bbs.example.com （不要以/结尾）]]></item>
+			<item id="type"><![CDATA[text]]></item>
+			<item id="value"><![CDATA[]]></item>
+		</setting>
+		<setting id="debug_mode">
+			<item id="title"><![CDATA[调试模式]]></item>
+			<item id="description"><![CDATA[开启后会将通知日志写入 data/log/qqnotify_YYYYMMDD.log]]></item>
+			<item id="type"><![CDATA[radio]]></item>
+			<item id="value"><![CDATA[0]]></item>
+			<item id="extra"><![CDATA[1=开启
+0=关闭]]></item>
+		</setting>
+	</item>
+</root>

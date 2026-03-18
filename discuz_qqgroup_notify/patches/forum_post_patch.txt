@@ -1,0 +1,39 @@
+========================================
+Discuz X3.5 论坛发帖模块钩子补丁
+========================================
+将以下代码添加到 source/module/forum/forum_post.php 中
+
+【新主题发帖成功】在 newthread 发帖成功后、showmessage 跳转前添加：
+
+查找类似以下代码位置（新主题发帖成功后的跳转逻辑）：
+  $param = array('tid' => $tid, 'pid' => $pid, 'fid' => $fid, ...);
+  showmessage('post_newthread_succeed', $redirect_url, ...);
+
+在 showmessage 之前添加：
+  if(function_exists('hookscript')) {
+      $thread = isset($thread) ? $thread : C::t('forum_thread')->fetch($tid);
+      $post = isset($post) ? $post : DB::fetch_first("SELECT * FROM ".DB::table('forum_post')." WHERE tid='".intval($tid)."' AND pid='".intval($pid)."'");
+      if(!$post && $thread && isset($thread['posttableid'])) {
+          $post = DB::fetch_first("SELECT * FROM ".DB::table('forum_post_'.$thread['posttableid'])." WHERE tid='".intval($tid)."' AND pid='".intval($pid)."'");
+      }
+      hookscript('forum_post_newthread_succeed', array('tid'=>$tid, 'pid'=>$pid, 'fid'=>$fid, 'thread'=>$thread, 'post'=>$post));
+  }
+
+【回复发帖成功】在 reply 发帖成功后、showmessage 跳转前添加：
+
+查找类似以下代码位置（回复发帖成功后的跳转逻辑）：
+  showmessage('post_reply_succeed', $redirect_url, ...);
+
+在 showmessage 之前添加：
+  if(function_exists('hookscript')) {
+      $thread = isset($thread) ? $thread : C::t('forum_thread')->fetch($tid);
+      $post = isset($post) ? $post : DB::fetch_first("SELECT * FROM ".DB::table('forum_post')." WHERE tid='".intval($tid)."' AND pid='".intval($pid)."'");
+      if(!$post && $thread && isset($thread['posttableid'])) {
+          $post = DB::fetch_first("SELECT * FROM ".DB::table('forum_post_'.$thread['posttableid'])." WHERE tid='".intval($tid)."' AND pid='".intval($pid)."'");
+      }
+      hookscript('forum_post_reply_succeed', array('tid'=>$tid, 'pid'=>$pid, 'fid'=>$fid, 'thread'=>$thread, 'post'=>$post));
+  }
+
+========================================
+注意：如您的 Discuz 版本已包含上述钩子，则无需添加此补丁
+========================================

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="title"><![CDATA[QQ群发帖通知]]></item>
+	<item id="version"><![CDATA[X3.5]]></item>
+	<item id="time"><![CDATA[2025-03-18]]></item>
+	<item id="copyright"><![CDATA[Discuz! X3.5]]></item>
+	<item id="plugin">
+		<item id="available"><![CDATA[1]]></item>
+		<item id="adminid"><![CDATA[1]]></item>
+		<item id="name"><![CDATA[QQ群发帖通知]]></item>
+		<item id="identifier"><![CDATA[qqgroup_notify]]></item>
+		<item id="description"><![CDATA[论坛发帖时自动推送通知到QQ群。支持设置QQ群WebHook，可选择部分板块或全部板块发帖时通知。支持新主题和回复两种通知类型。]]></item>
+		<item id="datatables"><![CDATA[]]></item>
+		<item id="directory"><![CDATA[qqgroup_notify/]]></item>
+		<item id="copyright"><![CDATA[]]></item>
+		<item id="version"><![CDATA[1.0.0]]></item>
+		<item id="__modules">
+			<item id="0">
+				<item id="name"><![CDATA[QQ群发帖通知]]></item>
+				<item id="param"><![CDATA[]]></item>
+				<item id="menu"><![CDATA[]]></item>
+				<item id="url"><![CDATA[]]></item>
+				<item id="type"><![CDATA[11]]></item>
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="nav"><![CDATA[]]></item>
+				<item id="leftmenu"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="__vars">
+			<item id="qqgroup_webhook_key">
+				<item id="title"><![CDATA[QQ群WebHook Key]]></item>
+				<item id="description"><![CDATA[在QQ群设置中开启消息推送后获取的WebHook Key。添加机器人QQ 2854196399 到群，在群设置-消息推送中生成。]]></item>
+				<item id="variable"><![CDATA[qqgroup_webhook_key]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="type"><![CDATA[text]]></item>
+			</item>
+			<item id="qqgroup_notify_forums">
+				<item id="title"><![CDATA[通知板块]]></item>
+				<item id="description"><![CDATA[选择发帖时通知的板块，留空表示全部板块。多个板块ID用英文逗号分隔，如：1,2,3]]></item>
+				<item id="variable"><![CDATA[qqgroup_notify_forums]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="type"><![CDATA[text]]></item>
+			</item>
+			<item id="qqgroup_notify_newthread">
+				<item id="title"><![CDATA[新主题通知]]></item>
+				<item id="description"><![CDATA[是否在发布新主题时通知QQ群]]></item>
+				<item id="variable"><![CDATA[qqgroup_notify_newthread]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="format"><![CDATA[0=关闭
+1=开启]]></item>
+			</item>
+			<item id="qqgroup_notify_reply">
+				<item id="title"><![CDATA[回复通知]]></item>
+				<item id="description"><![CDATA[是否在回复帖子时通知QQ群]]></item>
+				<item id="variable"><![CDATA[qqgroup_notify_reply]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="format"><![CDATA[0=关闭
+1=开启]]></item>
+			</item>
+		</item>
+	</item>
+</root>

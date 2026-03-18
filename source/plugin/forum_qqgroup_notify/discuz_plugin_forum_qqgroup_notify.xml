@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X3.5]]></item>
+	<item id="Time"><![CDATA[2026-03-18 00:00]]></item>
+	<item id="From"><![CDATA[Cursor Cloud Agent]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[论坛 QQ 群发帖通知]]></item>
+			<item id="identifier"><![CDATA[forum_qqgroup_notify]]></item>
+			<item id="description"><![CDATA[新主题发布后，将指定板块或全部板块的新帖通知推送到配置的 QQ 群。支持 go-cqhttp / NapCat HTTP API，也支持自定义 Webhook 桥接。]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[forum_qqgroup_notify/]]></item>
+			<item id="copyright"><![CDATA[Cursor]]></item>
+			<item id="version"><![CDATA[1.0.0]]></item>
+			<item id="__modules">
+				<item id="0">
+					<item id="name"><![CDATA[pagehook]]></item>
+					<item id="param"><![CDATA[]]></item>
+					<item id="menu"><![CDATA[]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[11]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="version"><![CDATA[X3.5]]></item>
+		<item id="var">
+			<item id="0">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[启用通知]]></item>
+				<item id="description"><![CDATA[0=关闭，1=开启。]]></item>
+				<item id="variable"><![CDATA[enabled]]></item>
+				<item id="type"><![CDATA[radio]]></item>
+				<item id="value"><![CDATA[1]]></item>
+				<item id="extra"><![CDATA[0=关闭
+1=开启]]></item>
+			</item>
+			<item id="1">
+				<item id="displayorder"><![CDATA[1]]></item>
+				<item id="title"><![CDATA[接口类型]]></item>
+				<item id="description"><![CDATA[cqhttp 使用 go-cqhttp / NapCat 的 HTTP API；webhook 适合自定义桥接服务。]]></item>
+				<item id="variable"><![CDATA[api_type]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[cqhttp]]></item>
+				<item id="extra"><![CDATA[cqhttp=go-cqhttp / NapCat
+webhook=自定义 Webhook]]></item>
+			</item>
+			<item id="2">
+				<item id="displayorder"><![CDATA[2]]></item>
+				<item id="title"><![CDATA[接口地址]]></item>
+				<item id="description"><![CDATA[cqhttp 模式可填写 http://127.0.0.1:3000 或完整的 /send_group_msg 地址；webhook 模式填写你的桥接回调 URL。]]></item>
+				<item id="variable"><![CDATA[api_url]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[http://127.0.0.1:3000]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="3">
+				<item id="displayorder"><![CDATA[3]]></item>
+				<item id="title"><![CDATA[访问令牌]]></item>
+				<item id="description"><![CDATA[可选。填写 go-cqhttp / NapCat 或自定义 Webhook 要求的 Bearer Token。]]></item>
+				<item id="variable"><![CDATA[api_token]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="4">
+				<item id="displayorder"><![CDATA[4]]></item>
+				<item id="title"><![CDATA[QQ群号]]></item>
+				<item id="description"><![CDATA[填写一个或多个群号，使用英文逗号、中文逗号或空格分隔，例如：123456,234567。]]></item>
+				<item id="variable"><![CDATA[group_ids]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="5">
+				<item id="displayorder"><![CDATA[5]]></item>
+				<item id="title"><![CDATA[通知范围]]></item>
+				<item id="description"><![CDATA[all=全部板块；selected=仅通知指定 fid 板块。]]></item>
+				<item id="variable"><![CDATA[forum_scope]]></item>
+				<item id="type"><![CDATA[select]]></item>
+				<item id="value"><![CDATA[all]]></item>
+				<item id="extra"><![CDATA[all=全部板块
+selected=指定板块]]></item>
+			</item>
+			<item id="6">
+				<item id="displayorder"><![CDATA[6]]></item>
+				<item id="title"><![CDATA[板块 FID 列表]]></item>
+				<item id="description"><![CDATA[仅在通知范围为 selected 时生效。填写 fid 列表，例如：2,5,9。]]></item>
+				<item id="variable"><![CDATA[forum_ids]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="7">
+				<item id="displayorder"><![CDATA[7]]></item>
+				<item id="title"><![CDATA[消息模板]]></item>
+				<item id="description"><![CDATA[支持变量：{forum_name} {subject} {author} {authorid} {publish_time} {excerpt} {thread_url} {fid} {tid}。]]></item>
+				<item id="variable"><![CDATA[message_template]]></item>
+				<item id="type"><![CDATA[textarea]]></item>
+				<item id="value"><![CDATA[【论坛新帖通知】
+板块：{forum_name}
+标题：{subject}
+作者：{author}
+摘要：{excerpt}
+时间：{publish_time}
+链接：{thread_url}]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="8">
+				<item id="displayorder"><![CDATA[8]]></item>
+				<item id="title"><![CDATA[摘要长度]]></item>
+				<item id="description"><![CDATA[从首帖正文截取的摘要长度，0 表示不附带摘要。]]></item>
+				<item id="variable"><![CDATA[excerpt_length]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[80]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+			<item id="9">
+				<item id="displayorder"><![CDATA[9]]></item>
+				<item id="title"><![CDATA[请求超时（秒）]]></item>
+				<item id="description"><![CDATA[向 QQ 机器人接口发起 HTTP 请求时的超时时间。]]></item>
+				<item id="variable"><![CDATA[timeout]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[5]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+		<item id="uninstallfile"><![CDATA[uninstall.php]]></item>
+	</item>
+</root>

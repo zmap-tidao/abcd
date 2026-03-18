@@ -87,14 +87,13 @@ class plugin_qqgroupnotify
             '{url}' => $threadUrl,
         ));
 
-        $webhooks = $this->parseWebhookUrls((string) $setting['webhook_urls']);
-        if (!$webhooks) {
+        $mode = $this->resolvePushMode($setting);
+        if ($mode === 'webhook') {
+            $this->sendByWebhook($setting, $message);
             return;
         }
 
-        foreach ($webhooks as $webhookUrl) {
-            $this->sendWebhookMessage($webhookUrl, $message);
-        }
+        $this->sendByNapcat($setting, $message);
     }
 
     protected function resolveCurrentThread()
@@ -169,6 +168,77 @@ class plugin_qqgroupnotify
         return array_values($result);
     }
 
+    protected function resolvePushMode($setting)
+    {
+        $mode = isset($setting['push_mode']) ? strtolower(trim((string) $setting['push_mode'])) : 'napcat';
+        if ($mode !== 'napcat' && $mode !== 'webhook') {
+            $mode = 'napcat';
+        }
+        return $mode;
+    }
+
+    protected function sendByNapcat($setting, $message)
+    {
+        $apiUrl = isset($setting['napcat_api_url']) ? trim((string) $setting['napcat_api_url']) : '';
+        $groupIds = $this->parseGroupIds(isset($setting['napcat_group_ids']) ? $setting['napcat_group_ids'] : '');
+        if ($apiUrl === '' || !$groupIds) {
+            return;
+        }
+
+        $endpoint = $this->normalizeNapcatEndpoint($apiUrl);
+        $headers = array();
+        $token = isset($setting['napcat_access_token']) ? trim((string) $setting['napcat_access_token']) : '';
+        if ($token !== '') {
+            $headers[] = 'Authorization: Bearer ' . $token;
+        }
+
+        foreach ($groupIds as $groupId) {
+            $payload = array(
+                'group_id' => intval($groupId),
+                'message' => $message,
+                'auto_escape' => false,
+            );
+            $this->postJson($endpoint, $payload, $headers);
+        }
+    }
+
+    protected function parseGroupIds($groupIds)
+    {
+        $groupIds = str_replace(array("\r", "\n", '，', ';'), array('', ',', ',', ','), (string) $groupIds);
+        $parts = explode(',', $groupIds);
+        $result = array();
+
+        foreach ($parts as $part) {
+            $groupId = trim($part);
+            if ($groupId !== '' && preg_match('/^\d+$/', $groupId)) {
+                $result[$groupId] = $groupId;
+            }
+        }
+
+        return array_values($result);
+    }
+
+    protected function normalizeNapcatEndpoint($apiUrl)
+    {
+        $apiUrl = rtrim((string) $apiUrl, '/');
+        if (preg_match('#/send_group_msg$#', $apiUrl)) {
+            return $apiUrl;
+        }
+        return $apiUrl . '/send_group_msg';
+    }
+
+    protected function sendByWebhook($setting, $message)
+    {
+        $webhooks = $this->parseWebhookUrls(isset($setting['webhook_urls']) ? (string) $setting['webhook_urls'] : '');
+        if (!$webhooks) {
+            return;
+        }
+
+        foreach ($webhooks as $webhookUrl) {
+            $this->sendWebhookMessage($webhookUrl, $message);
+        }
+    }
+
     protected function parseWebhookUrls($raw)
     {
         $raw = str_replace(array("\r\n", "\r"), "\n", (string) $raw);
@@ -198,16 +268,21 @@ class plugin_qqgroupnotify
             'content' => $message,
             'message' => $message,
         );
+        return $this->postJson($url, $payload);
+    }
 
+    protected function postJson($url, $payload, $extraHeaders = array())
+    {
         $body = json_encode($payload);
         if ($body === false) {
             return false;
         }
 
+        $headers = array_merge(array('Content-Type: application/json; charset=utf-8'), $extraHeaders);
         if (function_exists('curl_init')) {
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
@@ -217,10 +292,15 @@ class plugin_qqgroupnotify
             return true;
         }
 
+        $headerText = '';
+        foreach ($headers as $header) {
+            $headerText .= $header . "\r\n";
+        }
+
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
-                'header' => "Content-Type: application/json; charset=utf-8\r\n",
+                'header' => $headerText,
                 'content' => $body,
                 'timeout' => 6,
             ),

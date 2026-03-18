@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <name>QQ群通知</name>
+    <identifier>qqnotify</identifier>
+    <version>1.0.0</version>
+    <description>论坛发帖、回帖时自动推送通知到QQ群。支持全部板块或指定板块，使用 OneBot 协议（go-cqhttp / Lagrange / LLOneBot 等）发送消息。</description>
+    <author>Cursor</author>
+    <authorid>0</authorid>
+    <license>MIT</license>
+    <url></url>
+    <hooks>
+        <hook>
+            <hookname>newthread_postsave</hookname>
+            <filename>qqnotify_newthread</filename>
+        </hook>
+        <hook>
+            <hookname>newreply_postsave</hookname>
+            <filename>qqnotify_newreply</filename>
+        </hook>
+    </hooks>
+    <adminsetup>admin.inc.php</adminsetup>
+    <config>
+        <!-- 是否启用插件 -->
+        <item id="qqnotify_enable" defaultvalue="0" />
+        <!-- OneBot HTTP API 地址，如 http://127.0.0.1:5700 -->
+        <item id="qqnotify_api_url" defaultvalue="http://127.0.0.1:5700" />
+        <!-- OneBot HTTP API 鉴权 Token（没有留空） -->
+        <item id="qqnotify_api_token" defaultvalue="" />
+        <!-- 目标QQ群号，多个用英文逗号分隔 -->
+        <item id="qqnotify_groups" defaultvalue="" />
+        <!-- 监控的板块FID，留空=全部，多个用英文逗号分隔 -->
+        <item id="qqnotify_fids" defaultvalue="" />
+        <!-- 是否通知新帖 -->
+        <item id="qqnotify_newthread" defaultvalue="1" />
+        <!-- 是否通知新回复 -->
+        <item id="qqnotify_newreply" defaultvalue="0" />
+        <!-- 新帖消息模板 -->
+        <item id="qqnotify_thread_tpl" defaultvalue="【新帖】{forumname}&#10;标题：{subject}&#10;作者：{author}&#10;链接：{url}" />
+        <!-- 新回复消息模板 -->
+        <item id="qqnotify_reply_tpl" defaultvalue="【新回复】{forumname}&#10;主题：{subject}&#10;作者：{author}&#10;链接：{url}" />
+    </config>
+</plugin>
